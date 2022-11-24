@@ -1,0 +1,16 @@
+import boto3
+from datetime import datetime
+FIND_TAG = 'your-tag' 
+ec2_resource = boto3.resource('ec2')
+images = ec2_resource.images.filter(Owners=['self'])
+for image in images:         # Find the matching tag
+  values = [tag['Value'] for tag in image.tags if tag['Key'] == FIND_TAG]
+if len(values) > 0:
+  value = values[0]
+  # Is it a date?
+  # trigger Jenkins job
+  try:
+    date = datetime.strptime(value, '%Y-%m-%d')
+  except ValueError:
+    print('Not a date')
+   # job failed
