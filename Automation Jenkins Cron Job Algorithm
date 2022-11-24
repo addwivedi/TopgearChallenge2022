@@ -1,0 +1,8 @@
+Step1: Login into AWS Shell using access id and secret access key
+Step2: Execute {aws ec2 describe-images --owners 730882916506 --filters "Name=tag:Type,Values=Ready for SST Validation" --query 'sort_by(Images, &CreationDate)[].ImageId'}
+Step3: Get last ami id {that will be the latest ami id} from the list {as the list will already be in ascending order}
+Step4: Check if the creation date of latest ami id matches with today's system date
+Step5: If yes, write the ami id to aws_config.json file {using json.dump method}
+Step6: Create a cron job in jenkins {with build periodically as H */4 * * *} with name aws_find_image
+Step7: Add Master sanity job as downstream to aws_find_image job
+Step8: Add Mail ids to get jenkins result of failed jobs
